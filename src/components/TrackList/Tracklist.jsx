@@ -1,6 +1,6 @@
 import Track from "../Track/Track";
 
-const TrackList = ({ tracks, onAdd }) => {
+const TrackList = ({ tracks, onAdd, onRemove, isRemoved }) => {
     return (
         <div className="TrackList">
             {tracks.map(track => {
@@ -8,7 +8,9 @@ const TrackList = ({ tracks, onAdd }) => {
                     <Track
                         key={track.id}
                         track={track}
-                        onAdd={onAdd} />
+                        onAdd={onAdd}
+                        onRemove={onRemove}
+                        isRemoved={isRemoved} />
                 )
             })}
         </div>

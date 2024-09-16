@@ -1,11 +1,24 @@
+import { useCallback } from "react"
 import TrackList from "../TrackList/TrackList"
 
-const Playlist = ({ playlistTracks }) => {
+const Playlist = ({ playlistTracks, onRemove, onNameChange, onSave }) => {
+
+    const handleNameChange = useCallback((event) => {
+        onNameChange(event.target.value)
+    }, [onNameChange])
+
+
     return (
         <div className="Playlist">
-            <input type="text" defaultValue={"New Playlist"} />
-            <TrackList tracks={playlistTracks} />
-            <button className="Playlist-save">Save to Spotify</button>
+            <input
+                type="text"
+                defaultValue={"New Playlist"}
+                onChange={handleNameChange} />
+            <TrackList
+                tracks={playlistTracks}
+                onRemove={onRemove}
+                isRemoved={true} />
+            <button className="Playlist-save" onClick={onSave}>Save to Spotify</button>
         </div>
     )
 }
