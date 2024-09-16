@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Track from "../Track/Track";
 
 const TrackList = ({ tracks, onAdd, onRemove, isRemoved }) => {

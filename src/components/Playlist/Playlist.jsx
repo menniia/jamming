@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useCallback } from "react"
-import TrackList from "../TrackList/TrackList"
+import TrackList from "../TrackList/Tracklist"
+
 
 const Playlist = ({ playlistTracks, onRemove, onNameChange, onSave }) => {
 

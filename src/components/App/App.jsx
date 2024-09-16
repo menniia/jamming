@@ -3,6 +3,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
 import { useCallback, useState } from "react";
+import Spotify from "../../util/Spotify";
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -18,17 +19,15 @@ function App() {
 
   const addTrack = useCallback(
     (track) => {
-      if (
-        playlistTracks.some((savedTrack) => {
-          savedTrack.id === track.id;
-        })
-      )
+      if (playlistTracks.some((savedTrack) => savedTrack.id === track.id)) {
         return;
+      }
 
       setPlaylistTracks((prevPlaylistTracks) => [...prevPlaylistTracks, track]);
     },
     [playlistTracks]
   );
+
 
   const updatePlaylistName = (name) => {
     setPlaylistName(name);
@@ -36,10 +35,11 @@ function App() {
 
   const savePlaylist = useCallback(() => {
     const trackURIs = playlistTracks.map((tracks) => tracks.uri);
+    console.log(trackURIs);
   }, [playlistTracks]);
 
   const search = useCallback((term) => {
-    console.log(term)
+    Spotify.search(term).then(setSearchResults);
   }, [])
 
   return (

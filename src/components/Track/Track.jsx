@@ -1,12 +1,13 @@
+/* eslint-disable react/prop-types */
 import { useCallback } from "react"
 
 const Track = ({ track, isRemoved, onAdd, onRemove }) => {
 
-    const addTrack = useCallback((event) => {
+    const addTrack = useCallback(() => {
         onAdd(track)
     }, [onAdd, track])
 
-    const removeTrack = useCallback((event) => {
+    const removeTrack = useCallback(() => {
         onRemove(track);
     }, [onRemove, track])
 

@@ -1,4 +1,5 @@
-import TrackList from "../TrackList/TrackList";
+/* eslint-disable react/prop-types */
+import TrackList from "../TrackList/Tracklist";
 
 const SearchResults = ({ searchResults, onAdd }) => {
     return (
