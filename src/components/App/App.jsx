@@ -35,10 +35,15 @@ function App() {
 
   const savePlaylist = useCallback(() => {
     const trackURIs = playlistTracks.map((tracks) => tracks.uri);
-    console.log(trackURIs);
-  }, [playlistTracks]);
+    const name = playlistName
+    Spotify.savePlaylist(name, trackURIs).then(() => {
+      setPlaylistName("New Playlist"),
+        setPlaylistTracks([])
+    })
+  }, [playlistName, playlistTracks]);
 
   const search = useCallback((term) => {
+    Spotify.getAccessToken();
     Spotify.search(term).then(setSearchResults);
   }, [])
 

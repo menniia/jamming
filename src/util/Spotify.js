@@ -1,7 +1,7 @@
 let accessToken = "";
 const clientId = "06553d9173c047f5bc1f7405a94bf6c3";
 const redirectURI = "http://localhost:5173/";
-const spotifyBaseUrl = "https://api.spotify.com/v1/";
+const spotifyBaseUrl = "https://api.spotify.com/v1";
 
 const Spotify = {
     getAccessToken() {
@@ -24,7 +24,7 @@ const Spotify = {
     async search(term) {
         const token = Spotify.getAccessToken();
         try {
-            const response = await fetch(`${spotifyBaseUrl}search?type=track&q=${term}`, {
+            const response = await fetch(`${spotifyBaseUrl}/search?type=track&q=${term}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (!response.ok) {
@@ -46,7 +46,49 @@ const Spotify = {
             return [];
         }
     }
+    
+    async savePlaylist(name, trackURI) {
+        if (!name || !trackURI.length) {
+            return;
+        }
+        let accessToken = Spotify.getAccessToken();
+        const headers = { Authorization: `Bearer ${accessToken}` };
 
+        try {
+            const userResponse = await fetch("https://api.spotify.com/v1/me", {
+                headers: headers
+            })
+            if (!userResponse.ok) {
+                throw new Error("Failed to fetch user data")
+            }
+            const userData = userResponse.json();
+            const userID = userData.id
+
+            const playlistResponse = await fetch(`${spotifyBaseUrl}/users/${usersID}/playlists`, {
+                headers: headers,
+                method: "POST",
+                body: JSON.stringify({ name: name })
+            })
+            if (!playlistResponse.ok) {
+                throw new Error("Failed to create playlist")
+            }
+            const playlistData = await playlistResponse.json();
+            const playlistID = playlistData.id;
+
+            const trackResponse = await fetch(`${spotifyBaseUrl}/playlists/${playlistID}/tracks`, {
+                headers: headers,
+                method: "POST",
+                body: JSON.stringify({ uris: trackURI })
+            })
+            if (!trackResponse.ok) {
+                throw new Error("Failed to add track to playlist")
+            }
+            return trackResponse.json();
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 export default Spotify;
